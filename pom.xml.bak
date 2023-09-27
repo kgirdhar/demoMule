@@ -46,7 +46,7 @@
 					<workerType>${vCore}</workerType>
 					<workers>${workers}</workers>
 					<objectStoreV2>true</objectStoreV2>
-					<region> ${region} </region>
+					<businessGroup>${business}</businessGroup>
 
 				</cloudHubDeployment>
 

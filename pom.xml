@@ -42,10 +42,11 @@
 					<username>${anypoint.username}</username>
 					<password>${anypoint.password}</password>
 					<applicationName>${appname}</applicationName>
-					<environment>Development</environment>
+					<environment>DEVELOPMENT</environment>
 					<workerType>${vCore}</workerType>
 					<workers>${workers}</workers>
 					<objectStoreV2>true</objectStoreV2>
+					<businessGroup>${business}</businessGroup>
 
 				</cloudHubDeployment>
 
