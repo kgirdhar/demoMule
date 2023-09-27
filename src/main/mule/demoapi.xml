@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="37515870-e7c3-43ea-9e7e-d3fb1fb02f88" basePath="/api" >
+		<http:listener-connection host="0.0.0.0" port="8092" protocol="HTTPS">
+			<tls:context >
+				<tls:key-store type="jks" path="secure-modules/keystore.jks" alias="mule" keyPassword="password" password="password" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="50376207-7f60-4245-99af-7bab7e0791cd" file="application-types.yaml" />
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="f3021f5b-f30e-4c9f-8518-3d9b34477e41" basePath="${bounce.basepath}">
+		<http:request-connection protocol="HTTPS" host="${bounce.host}" maxConnections="1"/>
+	</http:request-config>
+	<flow name="demoapiFlow" doc:id="d61d0f31-1b26-4d6d-b849-46eda201ec28" >
+		<http:listener doc:name="Listener" doc:id="b81553cf-1c54-4449-ac40-820cd1b9f5ae" config-ref="HTTP_Listener_config" path="/demo"/>
+		<ee:transform doc:name="Transform Message" doc:id="a92b5fc1-0052-40e5-9755-5fc9d871eaea" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+"id": "test233"
+
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="fileContent" ><![CDATA[%dw 2.0
+import toBase64 from dw::core::Binaries
+
+var content123 = payload.parts.file.content
+output application/json
+---
+//payload.parts.file.content
+
+toBase64 (content123)]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="9ee9ed99-38f5-4c74-86ae-a33ffd8d1760" message="payload going to java--#[payload]"/>
+	</flow>
+</mule>

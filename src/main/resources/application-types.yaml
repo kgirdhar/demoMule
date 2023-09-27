@@ -1,0 +1,4 @@
+bounce:
+  host: "bounce-dev-api.spotify.net"
+  basepath: "/api"
+  path: "/receiveBounceEvents"
