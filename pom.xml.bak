@@ -42,7 +42,7 @@
 					<username>${username}</username>
 					<password>${password}</password>
 					<applicationName>${project.artifactId}</applicationName>
-					<environment>Development</environment>
+					<environment>Sandbox</environment>
 					<workerType>${workerType}</workerType>
 					<workers>1</workers>
 					<objectStoreV2>true</objectStoreV2>
